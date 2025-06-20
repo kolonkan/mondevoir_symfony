@@ -1,0 +1,169 @@
+{{ form_start(form, {'attr': {'class': 'seance-form', 'id': 'seance_form'}}) }}
+    <div class="form-grid">
+        <div class="form-group">
+            {{ form_label(form.date, null, {'label_attr': {'class': 'form-label'}}) }}
+            <div class="datetime-picker">
+                {{ form_widget(form.date, {'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Sélectionnez la date et heure'
+                }}) }}
+            </div>
+            {{ form_errors(form.date) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.lieu, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.lieu, {'attr': {
+                'class': 'form-control',
+                'placeholder': 'Stade, terrain...'
+            }}) }}
+            {{ form_errors(form.lieu) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.type, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.type, {'attr': {
+                'class': 'form-control',
+            }}) }}
+            {{ form_errors(form.type) }}
+        </div>
+
+        {% if form.joueurs is defined %}
+        <div class="form-group">
+            {{ form_label(form.joueurs, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.joueurs, {'attr': {
+                'class': 'form-control',
+            }}) }}
+            {{ form_errors(form.joueurs) }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="submit-btn">
+            <i class="fas fa-save"></i> {{ button_label|default('Enregistrer') }}
+        </button>
+    </div>
+{{ form_end(form) }}
+
+<style>
+    .seance-form {
+        width: 100%;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #424242;
+        font-size: 0.95rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.85rem 1.25rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #fafafa;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #2e7d32;
+        box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+        background-color: #fff;
+    }
+
+    .datetime-picker {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .datetime-picker .form-control {
+        flex: 1;
+    }
+
+    .form-actions {
+        text-align: right;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .submit-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.85rem 2rem;
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(46, 125, 50, 0.2);
+    }
+
+    .submit-btn:hover {
+        background-color: #1b5e20;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+    }
+
+    .submit-btn i {
+        margin-right: 10px;
+    }
+
+    .invalid-feedback {
+        color: #d32f2f;
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        display: block;
+    }
+
+    .is-invalid {
+        border-color: #d32f2f !important;
+    }
+
+    /* Style pour les sélecteurs */
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1em;
+    }
+
+    /* Style pour les cases à cocher (si joueurs) */
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .checkbox-item {
+        display: flex;
+        align-items: center;
+        margin-right: 1rem;
+    }
+
+    .checkbox-item label {
+        margin-left: 0.5rem;
+        font-size: 0.9rem;
+    }
+</style>

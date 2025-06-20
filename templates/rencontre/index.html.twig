@@ -1,0 +1,236 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Rencontres • Football Manager{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .rencontres-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .page-title {
+            color: #2e7d32;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8f5e9;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-title i {
+            margin-right: 12px;
+        }
+
+        .rencontres-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .rencontres-table thead {
+            background-color: #f5f5f5;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .rencontres-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 500;
+            color: #424242;
+        }
+
+        .rencontres-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .rencontres-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rencontres-table tr:hover {
+            background-color: #fafafa;
+        }
+
+        .score-cell {
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .score-separator {
+            padding: 0 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.65rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-danger {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
+        .badge-warning {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.4rem 0.8rem;
+            margin-right: 0.5rem;
+            background-color: #f5f5f5;
+            color: #424242;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .action-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .action-link i {
+            margin-right: 5px;
+            font-size: 0.9em;
+        }
+
+        .show-link {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .edit-link {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .validate-link {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .new-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.7rem 1.3rem;
+            background-color: #2e7d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .new-btn:hover {
+            background-color: #1b5e20;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .new-btn i {
+            margin-right: 8px;
+        }
+
+        .no-records {
+            text-align: center;
+            color: #757575;
+            padding: 2rem;
+            font-style: italic;
+        }
+
+        .datetime-cell {
+            white-space: nowrap;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="rencontres-container">
+        <h1 class="page-title">
+            <i class="fas fa-calendar-alt"></i> Calendrier des Rencontres
+        </h1>
+
+        <table class="rencontres-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Adversaire</th>
+                    <th>Lieu</th>
+                    <th>Date & Heure</th>
+                    <th>Score</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for rencontre in rencontres %}
+                <tr>
+                    <td>#{{ rencontre.id }}</td>
+                    <td>{{ rencontre.adversaire }}</td>
+                    <td>{{ rencontre.lieu }}</td>
+                    <td class="datetime-cell">
+                        {{ rencontre.daterencontre ? rencontre.daterencontre|date('d/m/Y H:i') : '' }}
+                    </td>
+                    <td class="score-cell">
+                        <span>{{ rencontre.scoredomicile ?? '-' }}</span>
+                        <span class="score-separator">-</span>
+                        <span>{{ rencontre.scoreadversaire ?? '-' }}</span>
+                    </td>
+                    <td>
+                        {% if rencontre.valide %}
+                            <span class="badge badge-success">Validée</span>
+                        {% else %}
+                            <span class="badge badge-danger">En attente</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('app_rencontre_show', {'id': rencontre.id}) }}" class="action-link show-link">
+                            <i class="fas fa-eye"></i> Voir
+                        </a>
+                        <a href="{{ path('app_rencontre_edit', {'id': rencontre.id}) }}" class="action-link edit-link">
+                            <i class="fas fa-edit"></i> Modifier
+                        </a>
+                        {% if not rencontre.valide %}
+                            <a href="{{ path('app_rencontre_valider', {'id': rencontre.id}) }}" class="action-link validate-link">
+                                <i class="fas fa-check-circle"></i> Valider
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" class="no-records">
+                        <i class="fas fa-info-circle"></i> Aucune rencontre programmée
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_rencontre_new') }}" class="new-btn">
+            <i class="fas fa-plus"></i> Programmer une rencontre
+        </a>
+    </div>
+{% endblock %}

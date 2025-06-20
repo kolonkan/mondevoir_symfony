@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'Entraîneur • Football Manager{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .edit-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .page-title {
+            color: #2e7d32; /* Vert club */
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8f5e9;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-title i {
+            margin-right: 12px;
+        }
+
+        .action-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            background-color: #f5f5f5;
+            color: #424242;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-1px);
+        }
+
+        .back-link i {
+            margin-right: 8px;
+        }
+
+        /* Style pour le bouton de suppression */
+        .delete-form {
+            display: inline-block;
+        }
+
+        .delete-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            background-color: #ffebee;
+            color: #d32f2f;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #ffcdd2;
+            transform: translateY(-1px);
+        }
+
+        .delete-btn i {
+            margin-right: 8px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="edit-container">
+        <h1 class="page-title">
+            <i class="fas fa-user-edit"></i> Modifier l'Entraîneur
+        </h1>
+
+        {{ include('entraineur/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+        <div class="action-links">
+            <a href="{{ path('app_entraineur_index') }}" class="back-link">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+
+            {{ include('entraineur/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

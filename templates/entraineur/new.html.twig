@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel Entraîneur • Football Manager{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .entraineur-form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .page-title {
+            color: #2e7d32; /* Vert club */
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8f5e9;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-title i {
+            margin-right: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #424242;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.1);
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.7rem 1.3rem;
+            background-color: #f5f5f5;
+            color: #424242;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .back-btn i {
+            margin-right: 8px;
+        }
+
+        .save-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.7rem 1.3rem;
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .save-btn:hover {
+            background-color: #1b5e20;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .save-btn i {
+            margin-right: 8px;
+        }
+
+        .form-errors {
+            color: #d32f2f;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="entraineur-form-container">
+        <h1 class="page-title">
+            <i class="fas fa-user-plus"></i> Ajouter un nouvel entraîneur
+        </h1>
+
+        {{ include('entraineur/_form.html.twig') }}
+
+        <div class="btn-group">
+            <a href="{{ path('app_entraineur_index') }}" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+            <button type="submit" form="entraineur-form" class="save-btn">
+                <i class="fas fa-save"></i> Enregistrer
+            </button>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails Composition • Football Manager{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Tes styles existants */
+        .detail-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .page-title {
+            color: #2e7d32;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8f5e9;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-title i {
+            margin-right: 12px;
+        }
+
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .detail-table th, 
+        .detail-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            text-align: left;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.65rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .badge-yes {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-no {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
+        .players-list {
+            margin-top: 1rem;
+        }
+
+        .players-list ul {
+            padding-left: 1.25rem;
+        }
+
+        .players-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .action-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link {
+            background-color: #f5f5f5;
+            color: #424242;
+        }
+
+        .back-link:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-1px);
+        }
+
+        .edit-link {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            margin-right: 1rem;
+        }
+
+        .edit-link:hover {
+            background-color: #c8e6c9;
+            transform: translateY(-1px);
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="detail-container">
+        <h1 class="page-title">
+            <i class="fas fa-clipboard-check"></i> Détails de la Composition
+        </h1>
+
+        <table class="detail-table">
+            <tbody>
+                <tr>
+                    <th>ID</th>
+                    <td>#{{ composition.id }}</td>
+                </tr>
+                <tr>
+                    <th>Statut</th>
+                    <td>
+                        <span class="badge {{ composition.titulaire ? 'badge-yes' : 'badge-no' }}">
+                            {{ composition.titulaire ? 'Titulaire' : 'Remplaçante' }}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Rencontre</th>
+                    <td>
+                        {{ composition.rencontre.adversaire }} –
+                        {{ composition.rencontre.dateRencontre|date('d/m/Y H:i') }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Joueurs sélectionnés</th>
+                    <td class="players-list">
+                        {% if composition.joueurs is not empty %}
+                            <ul>
+                                {% for joueur in composition.joueurs %}
+                                    <li>{{ joueur.nom }} {{ joueur.prenom }} ({{ joueur.poste }}) - N°{{ joueur.numero }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <em>Aucun joueur sélectionné.</em>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="action-links">
+            <div>
+                <a href="{{ path('app_composition_edit', {'id': composition.id}) }}" class="action-link edit-link">
+                    <i class="fas fa-edit"></i> Modifier
+                </a>
+                <a href="{{ path('app_composition_index') }}" class="action-link back-link">
+                    <i class="fas fa-arrow-left"></i> Retour à la liste
+                </a>
+            </div>
+
+            {{ include('composition/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

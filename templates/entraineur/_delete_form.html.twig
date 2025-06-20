@@ -1,0 +1,39 @@
+<form method="post" action="{{ path('app_entraineur_delete', {'id': entraineur.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet entraîneur ? Cette action est irréversible.');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ entraineur.id) }}">
+    <button type="submit" class="delete-btn">
+        <i class="fas fa-trash-alt"></i> Supprimer
+    </button>
+</form>
+
+<style>
+    .delete-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.6rem 1.25rem;
+        background-color: #d32f2f; /* Rouge vif */
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(211, 47, 47, 0.2);
+    }
+
+    .delete-btn:hover {
+        background-color: #b71c1c; /* Rouge plus foncé */
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
+    }
+
+    .delete-btn:active {
+        transform: translateY(0);
+    }
+
+    .delete-btn i {
+        margin-right: 8px;
+        font-size: 0.9em;
+    }
+</style>

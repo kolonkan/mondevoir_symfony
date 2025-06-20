@@ -1,0 +1,218 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planning des Séances • Football Manager{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .seances-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .page-title {
+            color: #2e7d32;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8f5e9;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-title i {
+            margin-right: 12px;
+        }
+
+        .seances-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .seances-table thead {
+            background-color: #f5f5f5;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .seances-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 500;
+            color: #424242;
+        }
+
+        .seances-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .seances-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .seances-table tr:hover {
+            background-color: #fafafa;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 0.35rem 0.85rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .badge-entrainement {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-tactique {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .badge-physique {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .badge-recuperation {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .datetime-cell {
+            white-space: nowrap;
+        }
+
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.4rem 0.8rem;
+            margin-right: 0.5rem;
+            background-color: #f5f5f5;
+            color: #424242;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .action-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .action-link i {
+            margin-right: 5px;
+            font-size: 0.9em;
+        }
+
+        .show-link {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .edit-link {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .new-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.7rem 1.3rem;
+            background-color: #2e7d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .new-btn:hover {
+            background-color: #1b5e20;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .new-btn i {
+            margin-right: 8px;
+        }
+
+        .no-records {
+            text-align: center;
+            color: #757575;
+            padding: 2rem;
+            font-style: italic;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="seances-container">
+        <h1 class="page-title">
+            <i class="fas fa-calendar-alt"></i> Planning des Séances
+        </h1>
+
+        <table class="seances-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Lieu</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for seance in seances %}
+                <tr>
+                    <td class="datetime-cell">
+                        {{ seance.date ? seance.date|date('d/m/Y H:i') : '' }}
+                    </td>
+                    <td>{{ seance.lieu }}</td>
+                    <td>
+                        {% set badgeClass = 'badge-entrainement' %}
+                        {% if 'Tactique' in seance.type %}
+                            {% set badgeClass = 'badge-tactique' %}
+                        {% elseif 'Physique' in seance.type %}
+                            {% set badgeClass = 'badge-physique' %}
+                        {% elseif 'Récupération' in seance.type %}
+                            {% set badgeClass = 'badge-recuperation' %}
+                        {% endif %}
+                        <span class="type-badge {{ badgeClass }}">
+                            {{ seance.type }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{{ path('app_seance_show', {'id': seance.id}) }}" class="action-link show-link">
+                            <i class="fas fa-eye"></i> Voir
+                        </a>
+                        <a href="{{ path('app_seance_edit', {'id': seance.id}) }}" class="action-link edit-link">
+                            <i class="fas fa-edit"></i> Modifier
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="no-records">
+                        <i class="fas fa-info-circle"></i> Aucune séance programmée
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_seance_new') }}" class="new-btn">
+            <i class="fas fa-plus"></i> Planifier une séance
+        </a>
+    </div>
+{% endblock %}

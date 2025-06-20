@@ -1,0 +1,260 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails Rencontre • Football Manager{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .rencontre-detail-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .page-title {
+            color: #2e7d32;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8f5e9;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-title i {
+            margin-right: 12px;
+        }
+
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .detail-table tr {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .detail-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .detail-table th {
+            padding: 1rem;
+            text-align: left;
+            width: 30%;
+            font-weight: 500;
+            color: #424242;
+            vertical-align: top;
+        }
+
+        .detail-table td {
+            padding: 1rem;
+            color: #616161;
+        }
+
+        .score-display {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .team-score {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .adversaire-score {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
+        .score-separator {
+            margin: 0 1rem;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.35rem 0.85rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .status-valid {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-invalid {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
+        .datetime-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .datetime-info i {
+            margin-right: 10px;
+            color: #616161;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.7rem 1.5rem;
+            background-color: #f5f5f5;
+            color: #424242;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .back-btn i {
+            margin-right: 8px;
+        }
+
+        .edit-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.7rem 1.5rem;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .edit-btn:hover {
+            background-color: #c8e6c9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .edit-btn i {
+            margin-right: 8px;
+        }
+
+        .delete-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.7rem 1.5rem;
+            background-color: #ffebee;
+            color: #d32f2f;
+            border: 1px solid #d32f2f;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .delete-btn:hover {
+            background-color: #d32f2f;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(211, 47, 47, 0.2);
+        }
+
+        .delete-btn i {
+            margin-right: 8px;
+        }
+
+        .delete-form {
+            display: inline;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="rencontre-detail-container">
+        <h1 class="page-title">
+            <i class="fas fa-calendar-day"></i> Détails de la rencontre
+        </h1>
+
+        <table class="detail-table">
+            <tbody>
+                <tr>
+                    <th>ID</th>
+                    <td>#{{ rencontre.id }}</td>
+                </tr>
+                <tr>
+                    <th>Adversaire</th>
+                    <td>{{ rencontre.adversaire }}</td>
+                </tr>
+                <tr>
+                    <th>Lieu</th>
+                    <td>
+                        <i class="fas fa-map-marker-alt"></i> {{ rencontre.lieu }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Date & Heure</th>
+                    <td class="datetime-info">
+                        <i class="far fa-calendar-alt"></i>
+                        {{ rencontre.daterencontre ? rencontre.daterencontre|date('d/m/Y H:i') : '' }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Score</th>
+                    <td>
+                        <div class="score-display">
+                            <span class="team-score">{{ rencontre.scoredomicile ?? '-' }}</span>
+                            <span class="score-separator">-</span>
+                            <span class="adversaire-score">{{ rencontre.scoreadversaire ?? '-' }}</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Statut</th>
+                    <td>
+                        <span class="status-badge {{ rencontre.valide ? 'status-valid' : 'status-invalid' }}">
+                            {{ rencontre.valide ? 'Validée' : 'Non validée' }}
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="action-buttons">
+            <a href="{{ path('app_rencontre_index') }}" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Retour au calendrier
+            </a>
+
+            <div>
+                <a href="{{ path('app_rencontre_edit', {'id': rencontre.id}) }}" class="edit-btn">
+                    <i class="fas fa-edit"></i> Modifier
+                </a>
+
+                {{ include('rencontre/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

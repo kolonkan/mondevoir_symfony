@@ -1,0 +1,197 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Rencontre • Football Manager{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .rencontre-edit-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .page-title {
+            color: #2e7d32;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8f5e9;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-title i {
+            margin-right: 12px;
+        }
+
+        .form-container {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            color: #424242;
+            font-size: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1.25rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+            background-color: #fff;
+        }
+
+        .datetime-picker {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .datetime-picker .form-control {
+            flex: 1;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.7rem 1.5rem;
+            background-color: #f5f5f5;
+            color: #424242;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .back-btn i {
+            margin-right: 8px;
+        }
+
+        .save-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.85rem 2rem;
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 2px 6px rgba(46, 125, 50, 0.2);
+        }
+
+        .save-btn:hover {
+            background-color: #1b5e20;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+
+        .save-btn i {
+            margin-right: 10px;
+        }
+
+        .delete-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.7rem 1.5rem;
+            background-color: #ffebee;
+            color: #d32f2f;
+            border: 1px solid #d32f2f;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .delete-btn:hover {
+            background-color: #d32f2f;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(211, 47, 47, 0.2);
+        }
+
+        .delete-btn i {
+            margin-right: 8px;
+        }
+
+        .invalid-feedback {
+            color: #d32f2f;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        .is-invalid {
+            border-color: #d32f2f !important;
+        }
+
+        /* Style spécifique pour les sélecteurs d'équipe */
+        .team-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .team-selector .form-group {
+            flex: 1;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="rencontre-edit-container">
+        <h1 class="page-title">
+            <i class="fas fa-calendar-alt"></i> Modifier la rencontre
+        </h1>
+
+        <div class="form-container">
+            {{ include('rencontre/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        </div>
+
+        <div class="action-buttons">
+            <a href="{{ path('app_rencontre_index') }}" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+
+            <div>
+                {{ include('rencontre/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,52 @@
+<form method="post" action="{{ path('app_seance_delete', {'id': seance.id}) }}" 
+      onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette séance ? Cette action est irréversible.');"
+      class="delete-form">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ seance.id) }}">
+    <button type="submit" class="delete-btn">
+        <i class="fas fa-trash-alt"></i> Supprimer définitivement
+    </button>
+</form>
+
+<style>
+    .delete-form {
+        display: inline;
+    }
+
+    .delete-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.65rem 1.5rem;
+        background-color: #ffebee;
+        color: #d32f2f;
+        border: 1px solid #d32f2f;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 0 2px 4px rgba(211, 47, 47, 0.1);
+    }
+
+    .delete-btn:hover {
+        background-color: #d32f2f;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(211, 47, 47, 0.2);
+    }
+
+    .delete-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(211, 47, 47, 0.2);
+    }
+
+    .delete-btn i {
+        margin-right: 10px;
+        font-size: 0.95em;
+        transition: color 0.3s ease;
+    }
+
+    .delete-btn:hover i {
+        color: white;
+    }
+</style>
