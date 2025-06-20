@@ -40,4 +40,14 @@ class CompositionRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function findLastCompositions($entraineur, int $maxResults)
+{
+    return $this->createQueryBuilder('c')
+        ->where('c.entraineur = :entraineur')
+        ->setParameter('entraineur', $entraineur)
+        ->orderBy('c.dateCreation', 'DESC')
+        ->setMaxResults($maxResults)
+        ->getQuery()
+        ->getResult();
+}
 }
